@@ -43,7 +43,7 @@ class WelcomePage extends StatelessWidget {
                 ),
                 const PrivacyAndTerms(),
                 CustomElevatedButton(
-                  onPressd: () {},
+                  onPressed: () {},
                   text: 'AGREE AND CONTINUE',
                 ),
                 const SizedBox(height: 50),
