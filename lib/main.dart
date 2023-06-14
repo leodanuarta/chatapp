@@ -1,3 +1,5 @@
+import 'package:chatapp/common/theme/dark_theme.dart';
+import 'package:chatapp/common/theme/light_theme.dart';
 import 'package:chatapp/features/welcome/pages/welcome_page.dart';
 import 'package:flutter/material.dart';
 
@@ -13,8 +15,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'ChatApp',
-      theme: ThemeData.dark(),
-      home: WelcomePage(),
+      theme: lightTheme(),
+      darkTheme: darkTheme(),
+      themeMode: ThemeMode.system,
+      home: const WelcomePage(),
     );
   }
 }
