@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 
 class CustomElevatedButton extends StatelessWidget {
   final double? buttonWidth;
-  final VoidCallback onPressd;
+  final VoidCallback onPressed;
   final String text;
   const CustomElevatedButton({
     Key? key,
     this.buttonWidth,
-    required this.onPressd,
+    required this.onPressed,
     required this.text,
   }) : super(key: key);
 
@@ -17,7 +17,7 @@ class CustomElevatedButton extends StatelessWidget {
       height: 42,
       width: buttonWidth ?? MediaQuery.of(context).size.width - 100,
       child: ElevatedButton(
-        onPressed: onPressd,
+        onPressed: onPressed,
         child: Text(
           text,
         ),
