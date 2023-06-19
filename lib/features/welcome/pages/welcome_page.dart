@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:chatapp/common/extension/custom_theme_extension.dart';
+import 'package:chatapp/common/routes/routes.dart';
 import 'package:chatapp/common/widgets/custom_elevated_button.dart';
 import 'package:chatapp/features/welcome/widgets/language_button.dart';
 import 'package:chatapp/features/welcome/widgets/privacy_and_terms.dart';
@@ -7,6 +8,13 @@ import 'package:flutter/material.dart';
 
 class WelcomePage extends StatelessWidget {
   const WelcomePage({super.key});
+
+  navigateToLoginPage(contex) {
+    Navigator.of(contex).pushNamedAndRemoveUntil(
+      Routes.login,
+      (route) => false,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +51,7 @@ class WelcomePage extends StatelessWidget {
                 ),
                 const PrivacyAndTerms(),
                 CustomElevatedButton(
-                  onPressed: () {},
+                  onPressed: () => navigateToLoginPage(context),
                   text: 'AGREE AND CONTINUE',
                 ),
                 const SizedBox(height: 50),
