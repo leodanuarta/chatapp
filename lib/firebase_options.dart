@@ -17,15 +17,24 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      return web;
+      throw UnsupportedError(
+        'DefaultFirebaseOptions have not been configured for web - '
+        'you can reconfigure this by running the FlutterFire CLI again.',
+      );
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
         return android;
       case TargetPlatform.iOS:
-        return ios;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for ios - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.macOS:
-        return macos;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for macos - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
@@ -43,40 +52,11 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyAWdevYb_PVFVZrAMgXRGstoXtVvUVQpFw',
-    appId: '1:35957702446:web:2242417b0900f03b4744bf',
-    messagingSenderId: '35957702446',
-    projectId: 'chatapp-cad55',
-    authDomain: 'chatapp-cad55.firebaseapp.com',
-    storageBucket: 'chatapp-cad55.appspot.com',
-  );
-
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyDiBO1nZDNsNl3QB8IWXEJi8i5YLRREiZA',
     appId: '1:35957702446:android:4a532763f6030fe04744bf',
     messagingSenderId: '35957702446',
     projectId: 'chatapp-cad55',
     storageBucket: 'chatapp-cad55.appspot.com',
-  );
-
-  static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyB2NrAcVudbdemoN7LqPS37VeK44FI1ctk',
-    appId: '1:35957702446:ios:c70617b0846e84f54744bf',
-    messagingSenderId: '35957702446',
-    projectId: 'chatapp-cad55',
-    storageBucket: 'chatapp-cad55.appspot.com',
-    iosClientId: '35957702446-5vo9cabu41igdd0pvkv1lc2rinqrc4vk.apps.googleusercontent.com',
-    iosBundleId: 'com.example.chatapp',
-  );
-
-  static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyB2NrAcVudbdemoN7LqPS37VeK44FI1ctk',
-    appId: '1:35957702446:ios:c70617b0846e84f54744bf',
-    messagingSenderId: '35957702446',
-    projectId: 'chatapp-cad55',
-    storageBucket: 'chatapp-cad55.appspot.com',
-    iosClientId: '35957702446-5vo9cabu41igdd0pvkv1lc2rinqrc4vk.apps.googleusercontent.com',
-    iosBundleId: 'com.example.chatapp',
   );
 }

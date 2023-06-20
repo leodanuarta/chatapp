@@ -1,38 +1,34 @@
 import 'package:chatapp/common/extension/custom_theme_extension.dart';
 import 'package:chatapp/common/widgets/custom_icon_button.dart';
+import 'package:chatapp/features/auth/controller/auth_controller.dart';
 import 'package:chatapp/features/auth/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class VerificationPage extends StatefulWidget {
+class VerificationPage extends ConsumerWidget {
   const VerificationPage({
     super.key,
-    required this.verificationId,
+    required this.smsCodeId,
     required this.phoneNumber,
   });
-  final String verificationId;
+  final String smsCodeId;
   final String phoneNumber;
 
-  @override
-  State<VerificationPage> createState() => _VerificationPageState();
-}
-
-class _VerificationPageState extends State<VerificationPage> {
-  late TextEditingController codeController;
-
-  @override
-  void initState() {
-    codeController = TextEditingController();
-    super.initState();
+  void verifySmsCode(
+    BuildContext context,
+    WidgetRef ref,
+    String smsCode,
+  ) {
+    ref.read(authControllerProvider).verifySmsCode(
+          context: context,
+          smsCodeId: smsCodeId,
+          smsCode: smsCode,
+          mounted: true,
+        );
   }
 
   @override
-  void dispose() {
-    codeController.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).backgroundColor,
@@ -80,12 +76,15 @@ class _VerificationPageState extends State<VerificationPage> {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 80),
               child: CustomTextField(
-                // controller: codeController,
                 hintText: '- - -  - - - ',
                 fontSize: 30,
                 autoFocus: true,
                 keyboardType: TextInputType.number,
-                onChanged: (value) {},
+                onChanged: (value) {
+                  if (value.length == 6) {
+                    return verifySmsCode(context, ref, value);
+                  }
+                },
               ),
             ),
             const SizedBox(height: 20),
@@ -100,13 +99,8 @@ class _VerificationPageState extends State<VerificationPage> {
             ),
             Row(
               children: [
-                Icon(
-                  Icons.message,
-                  color: context.theme.greyColor,
-                ),
-                const SizedBox(
-                  width: 20,
-                ),
+                Icon(Icons.message, color: context.theme.greyColor),
+                const SizedBox(width: 20),
                 Text(
                   'Resend SMS',
                   style: TextStyle(

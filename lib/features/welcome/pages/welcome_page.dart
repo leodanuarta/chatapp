@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:chatapp/common/extension/custom_theme_extension.dart';
 import 'package:chatapp/common/routes/routes.dart';
 import 'package:chatapp/common/widgets/custom_elevated_button.dart';
@@ -9,8 +8,9 @@ import 'package:flutter/material.dart';
 class WelcomePage extends StatelessWidget {
   const WelcomePage({super.key});
 
-  navigateToLoginPage(contex) {
-    Navigator.of(contex).pushNamedAndRemoveUntil(
+  navigateToLoginPage(context) {
+    Navigator.pushNamedAndRemoveUntil(
+      context,
       Routes.login,
       (route) => false,
     );
