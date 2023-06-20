@@ -1,4 +1,8 @@
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:chatapp/common/extension/custom_theme_extension.dart';
+import 'package:chatapp/common/helper/show_alert_dialog.dart';
 import 'package:chatapp/common/utils/coloors.dart';
 import 'package:chatapp/common/widgets/custom_elevated_button.dart';
 import 'package:chatapp/common/widgets/custom_icon_button.dart';
@@ -6,6 +10,7 @@ import 'package:chatapp/common/widgets/short_h_bar.dart';
 import 'package:chatapp/features/auth/pages/image_picker_page.dart';
 import 'package:chatapp/features/auth/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class UserInfoPage extends StatefulWidget {
   const UserInfoPage({super.key});
@@ -15,6 +20,8 @@ class UserInfoPage extends StatefulWidget {
 }
 
 class _UserState extends State<UserInfoPage> {
+  File? imageCamera;
+  Uint8List? imageGallery;
   imagePickerTypeBottomSheet() {
     return showModalBottomSheet(
       context: context,
@@ -44,19 +51,24 @@ class _UserState extends State<UserInfoPage> {
               children: [
                 const SizedBox(width: 20),
                 imagePickerIcon(
-                  onTap: () {},
+                  onTap: pickImageFromCamera,
                   icon: Icons.camera_alt_rounded,
                   text: 'Camera',
                 ),
                 const SizedBox(width: 15),
                 imagePickerIcon(
-                  onTap: () {
+                  onTap: () async {
                     Navigator.pop(context);
-                    Navigator.of(context).push(
+                    final image = await Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) => const ImagePickerPage(),
                       ),
                     );
+                    if (image == null) return;
+                    setState(() {
+                      imageGallery = image;
+                      imageCamera = null;
+                    });
                   },
                   icon: Icons.photo_camera_back_rounded,
                   text: 'Gallery',
@@ -68,6 +80,19 @@ class _UserState extends State<UserInfoPage> {
         );
       },
     );
+  }
+
+  pickImageFromCamera() async {
+    Navigator.of(context).pop();
+    try {
+      final image = await ImagePicker().pickImage(source: ImageSource.camera);
+      setState(() {
+        imageCamera = File(image!.path);
+        imageGallery = null;
+      });
+    } catch (e) {
+      showAlertDialog(context: context, message: e.toString());
+    }
   }
 
   imagePickerIcon({
@@ -131,13 +156,28 @@ class _UserState extends State<UserInfoPage> {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: context.theme.photoIconBgColor,
+                  border: Border.all(
+                    color: imageCamera == null && imageGallery == null
+                        ? Colors.transparent
+                        : context.theme.greyColor!.withOpacity(0.4),
+                  ),
+                  image: imageCamera != null || imageGallery != null
+                      ? DecorationImage(
+                          fit: BoxFit.cover,
+                          image: imageGallery != null
+                              ? MemoryImage(imageGallery!) as ImageProvider
+                              : FileImage(imageCamera!),
+                        )
+                      : null,
                 ),
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: 3, right: 3),
                   child: Icon(
                     Icons.add_a_photo_rounded,
                     size: 48,
-                    color: context.theme.photoIconColor,
+                    color: imageCamera == null && imageGallery == null
+                        ? context.theme.photoIconColor
+                        : Colors.transparent,
                   ),
                 ),
               ),
