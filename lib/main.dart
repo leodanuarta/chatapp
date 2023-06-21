@@ -32,6 +32,7 @@ class MyApp extends ConsumerWidget {
       theme: lightTheme(),
       darkTheme: darkTheme(),
       themeMode: ThemeMode.system,
+      // home: const ContactPage(),
       home: ref.watch(userInfoAuthProvider).when(
         data: (user) {
           if (user == null) return const WelcomePage();
@@ -49,7 +50,7 @@ class MyApp extends ConsumerWidget {
             body: Center(
               child: Icon(
                 Icons.run_circle,
-                size: 70 ,
+                size: 70,
               ),
             ),
           );
