@@ -1,4 +1,3 @@
-import 'package:chatapp/common/extension/custom_theme_extension.dart';
 import 'package:flutter/material.dart';
 
 class CustomIconButton extends StatelessWidget {
@@ -41,7 +40,7 @@ class CustomIconButton extends StatelessWidget {
         ),
         icon: Icon(
           icon,
-          color: iconColor ?? context.theme.greyColor,
+          color: iconColor ?? Theme.of(context).appBarTheme.iconTheme!.color,
         ),
       ),
     );

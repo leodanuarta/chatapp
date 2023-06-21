@@ -257,7 +257,7 @@ class _UserState extends ConsumerState<UserInfoPage> {
                   color: context.theme.photoIconColor,
                 ),
                 const SizedBox(
-                  width: 20,
+                  width: 10,
                 ),
               ],
             ),
