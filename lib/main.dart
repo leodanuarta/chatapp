@@ -7,10 +7,13 @@ import 'package:chatapp/features/welcome/pages/welcome_page.dart';
 import 'package:chatapp/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  // These keeps the splash screen on untill it loaded up all neccessary data;
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -35,6 +38,8 @@ class MyApp extends ConsumerWidget {
       // home: const ContactPage(),
       home: ref.watch(userInfoAuthProvider).when(
         data: (user) {
+          // These will make disappear the Splash screen when data are loaded;
+          FlutterNativeSplash.remove();
           if (user == null) return const WelcomePage();
           return const HomePage();
         },
@@ -46,14 +51,7 @@ class MyApp extends ConsumerWidget {
           );
         },
         loading: () {
-          return const Scaffold(
-            body: Center(
-              child: Icon(
-                Icons.run_circle,
-                size: 70,
-              ),
-            ),
-          );
+          return const SizedBox();
         },
       ),
       onGenerateRoute: Routes.onGenerateRoute,

@@ -16,7 +16,7 @@ class ContactsRepository {
 
   ContactsRepository({required this.firestore});
 
-  Future<List<List<UserModel>>> getAllContacts() async {
+  Future<List<List>> getAllContacts() async {
     List<UserModel> firebaseContacts = [];
     List<UserModel> phoneContacts = [];
 
